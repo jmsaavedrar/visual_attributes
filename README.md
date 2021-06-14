@@ -4,7 +4,7 @@ This project allows you to compute features and apply similarity search using a 
 ## Dependencies
 This project depends on the project convnet2, that you can download from [here](https://github.com/jmsaavedrar/convnet2). So, you will need to set the local path of convnet2 at the top of the file [ssearch.py](ssearch.py).
 
-## Compute Features of a Cataloog
+## Compute Features of a Catalog
 A catalog is a set of images used for querying. A catalog is defined by a text file listing all the filenames that you will process.
 
 In addition, to make the configuration easier, a configuration file is required. This configuration file has many parameters, but you only need to pay attention to the following params:
@@ -22,7 +22,7 @@ python ssearch.py -config resnet50.config -name RESNET -mode compute
 ```
 where RESNET is the name of a section in the configuration file.
 
-## Querying
+## Make a Query
 For queryng you can use the following command:
 ```
 python ssearch.py -config resnet50.config -name RESNET -mode search
