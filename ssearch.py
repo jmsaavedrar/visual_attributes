@@ -27,8 +27,8 @@ class SSearch :
                                                pooling=None, 
                                                classes=1000)
         #redefining the model to get the hidden output
-        output_layer_name = 'conv4_block6_out'
-        output = model.get_layer(output_layer_name).output
+        self.output_layer_name = 'conv4_block6_out'
+        output = model.get_layer(self.output_layer_name).output
         output = tf.keras.layers.GlobalAveragePooling2D()(output)                
         self.sim_model = tf.keras.Model(model.input, output)        
         self.sim_model.summary()
@@ -75,18 +75,29 @@ class SSearch :
         return fv
     
     def normalize(self, data) :
+        """
+        unit normalization
+        """
         norm = np.sqrt(np.sum(np.square(data), axis = 1))
         norm = np.expand_dims(norm, 0)  
         print(norm)      
         data = data / np.transpose(norm)
         return data
+    
+    def square_root_norm(self, data) :
+        return self.normalize(np.sign(data)*np.sqrt(np.abs(data)))        
  
-    def search(self, im_query, metric = 'l2'):
+    def search(self, im_query, metric = 'l2', norm = 'None'):
         assert self.enable_search, 'search is not allowed'
         q_fv = self.compute_features(im_query, expand_dims = True)
         #it seems that Euclidean performs better than cosine
         if metric == 'l2' :
-            d = np.sqrt(np.sum(np.square(self.features - q_fv[0]), axis = 1))
+            data = self.features
+            query =q_fv            
+            if norm == 'square_root' :
+                data = self.square_root_norm(data)
+                query = self.square_root_norm(query)
+            d = np.sqrt(np.sum(np.square(data - query[0]), axis = 1))
             idx_sorted = np.argsort(d)
             print(d[idx_sorted][:20])
         elif metric == 'cos' : 
@@ -151,7 +162,7 @@ if __name__ == '__main__' :
     configuration_file = pargs.config        
     ssearch = SSearch(pargs.config, pargs.name)
     metric = 'l2'
-        
+    norm = 'square_root'
     if pargs.mode == 'compute' :        
         ssearch.compute_features_from_catalog()        
     if pargs.mode == 'search' :
@@ -165,7 +176,7 @@ if __name__ == '__main__' :
                 r_filenames = ssearch.get_filenames(idx)
                 r_filenames.insert(0, fquery)#           
                 image_r= ssearch.draw_result(r_filenames)
-                output_name = os.path.basename(fquery) + '_{}_result.png'.format(metric)
+                output_name = os.path.basename(fquery) + '_{}_{}_{}_result.png'.format(metric, norm, ssearch.output_layer_name)
                 output_name = os.path.join(pargs.odir, output_name)
                 io.imsave(output_name, image_r)
                 print('result saved at {}'.format(output_name))                
@@ -177,7 +188,7 @@ if __name__ == '__main__' :
                 r_filenames = ssearch.get_filenames(idx)
                 r_filenames.insert(0, fquery)    
                 image_r= ssearch.draw_result(r_filenames)
-                output_name = os.path.basename(fquery) + '_{}_result.png'.format(metric)
+                output_name = os.path.basename(fquery) + '_{}_{}_result.png'.format(metric, norm, ssearch.output_layer_name)
                 output_name = os.path.join(pargs.odir, output_name)
                 io.imsave(output_name, image_r)
                 print('result saved at {}'.format(output_name))
