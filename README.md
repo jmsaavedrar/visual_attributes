@@ -25,7 +25,7 @@ where RESNET is the name of a section in the configuration file.
 ## Querying
 For queryng you can use the following command:
 ```
-python ssearch.py -config resnet50.config -name RESNET -mode search
+python ssearch.py -config config/resnet50.config -name RESNET -mode search
 ```
 
 As you can note, we only have changed the paramenter *mode* to *search*. After running the previous command, the sysmem will ask you for a filename, that is the input query.
