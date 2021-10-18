@@ -22,7 +22,7 @@ python ssearch.py -config resnet50.config -name RESNET -mode compute
 ```
 where RESNET is the name of a section in the configuration file.
 
-## Make a Query
+## Querying
 For queryng you can use the following command:
 ```
 python ssearch.py -config resnet50.config -name RESNET -mode search
