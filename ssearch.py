@@ -26,8 +26,11 @@ class SSearch :
                                                input_shape =self.input_shape, 
                                                pooling=None, 
                                                classes=1000)
+        model.summary()
         #redefining the model to get the hidden output
-        self.output_layer_name = 'conv4_block6_out'
+        color_layer =  'conv2_block3_out'
+        texture_layer =  'conv4_block6_out'
+        self.output_layer_name = color_layer
         output = model.get_layer(self.output_layer_name).output
         output = tf.keras.layers.GlobalAveragePooling2D()(output)                
         self.sim_model = tf.keras.Model(model.input, output)        
@@ -161,7 +164,7 @@ if __name__ == '__main__' :
     pargs = parser.parse_args()     
     configuration_file = pargs.config        
     ssearch = SSearch(pargs.config, pargs.name)
-    metric = 'l2'
+    metric = 'cos'
     norm = 'square_root'
     if pargs.mode == 'compute' :        
         ssearch.compute_features_from_catalog()        
