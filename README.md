@@ -14,11 +14,11 @@ In addition, to make the configuration easier, a configuration file is required.
 * IMAGE_HEIGHT: Height of the input image.
 * CHANNELS: Number of channels of the input.
 
-You can find an example of this configuraction file in [resnet50.config](resnet50.config).
+You can find an example of this configuraction file in [resnet50.config](config/resnet50.config).
 
 Finally, the command to compute the catalog is:
 ```
-python ssearch.py -config resnet50.config -name RESNET -mode compute
+python ssearch.py -config config/resnet50.config -name RESNET -mode compute
 ```
 where RESNET is the name of a section in the configuration file.
 
