@@ -5,7 +5,7 @@ This project allows you to compute features and apply similarity search using a 
 This project depends on the project convnet2, that you can download from [here](https://github.com/jmsaavedrar/convnet2). So, you will need to set the local path of convnet2 at the top of the file [ssearch.py](ssearch.py).
 
 ## Compute Features of a Catalog
-A catalog is a set of images used for querying. A catalog is defined by a text file listing all the filenames that you will process.
+A catalog is a set of images used for querying. A catalog is defined by a text file listing all the filenames that you will process. For this example, you can use our catalog containing two sets of images, one containing images distributed in 10 different classes, and the other with 10 different textures.  The catalog was collected by Andres Baloian, and can be download from [here](https://www.dropbox.com/s/ri743kwqh8t6a7r/dataset_atributos.zip?dl=0).
 
 In addition, to make the configuration easier, a configuration file is required. This configuration file has many parameters, but you only need to pay attention to the following params:
 
